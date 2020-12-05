@@ -43,7 +43,6 @@ var longestPalindrome = function (s) {
       j -= 1
       maxLength = countLength
       maxStr = s.slice(leftIndex - j, rightIndex + j + 1)
-      console.log('maxStr', maxStr)
     }
     i += 1
   }
