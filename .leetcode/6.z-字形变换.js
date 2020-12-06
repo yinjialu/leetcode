@@ -15,29 +15,19 @@
  */
 var convert = function (s, numRows) {
   const groupLen = numRows * 2 - 2 || 1 // s = 'a' 一个单词时要避免 groupLen 为 0
-  const totalLen = s.length
-  const arr = []
-  let i = 0
-  while (i < totalLen) {
-    const groupStr = s.slice(i, i + groupLen)
-    const firstLine = groupStr.slice(0, numRows)
-    arr.push(firstLine.split(''))
-    let j = numRows
-    while (j < groupStr.length) {
-      const newArr = new Array(numRows)
-      newArr[groupLen - j] = groupStr.slice(j, j + 1)
-      arr.push(newArr)
-      j++
-    }
-    i += groupLen
+  const groups = Math.ceil(s.length / groupLen); // 分组
+  let str = '';
+  for (let i = 0; i < numRows; i++) {
+      for (let j = 0; j < groups; j++) {
+          const left = i + j * groupLen;
+          const right = (j + 1) * groupLen - i; // <= groupLen
+          str += s.slice(left, left + 1);
+          if (i !== 0 && i !== numRows - 1) {
+            str += s.slice(right, right + 1);
+          }
+      }
   }
-  let str = ''
-  for (let l = 0; l < numRows; l++) {
-    for (let n = 0; n < arr.length; n++) {
-      str += arr[n][l] || ''
-    }
-  }
-  return str
+  return str;
 }
 // @lc code=end
 
@@ -51,3 +41,9 @@ var convert = function (s, numRows) {
 // 1157/1157 cases passed (160 ms)
 // Your runtime beats 15.56 % of javascript submissions
 // Your memory usage beats 22.15 % of javascript submissions (44.3 MB)
+
+// v2
+// Accepted
+// 1157/1157 cases passed (112 ms)
+// Your runtime beats 73.74 % of javascript submissions
+// Your memory usage beats 63.6 % of javascript submissions (41.7 MB)
