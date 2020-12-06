@@ -14,22 +14,19 @@
  */
 var isPalindrome = function (x) {
   if (x < 0) return false
-  let reverseUnit = 1
-  let reverseVal = 0
-  const length = String(x).length
+  const arr = []
+  let val = x
+  while (val / 10 >= 1) {
+    arr.push(val % 10)
+    val = Math.floor(val / 10)
+  }
+  arr.push(val)
   let unit = 1
-  for (let i = 1; i < length; i++) {
+  let reverseVal = 0
+  for (let i = arr.length - 1; i >=0 ; i--) {
+    reverseVal += arr[i] * unit
     unit *= 10
   }
-  const initUnit = unit;
-  let remainder = x
-  while (remainder >= 10) {
-    reverseVal += Math.floor(remainder / unit) * reverseUnit
-    remainder = remainder % unit
-    unit /= 10
-    reverseUnit *= 10
-  }
-  reverseVal += remainder * initUnit
   return x === reverseVal
 }
 // @lc code=end
@@ -38,3 +35,10 @@ var isPalindrome = function (x) {
 // 11510/11510 cases passed (200 ms)
 // Your runtime beats 89.45 % of javascript submissions
 // Your memory usage beats 14.24 % of javascript submissions (47.2 MB)
+
+
+// v1
+// Accepted
+// 11510/11510 cases passed (228 ms)
+// Your runtime beats 48.62 % of javascript submissions
+// Your memory usage beats 33.94 % of javascript submissions (46.9 MB)
