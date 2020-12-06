@@ -24,20 +24,18 @@ var convert = function (s, numRows) {
     arr.push(firstLine.split(''))
     let j = numRows
     while (j < groupStr.length) {
-      const newArr = new Array(numRows).fill('')
-      newArr.splice(groupLen - j, 1, groupStr.slice(j, j + 1))
+      const newArr = new Array(numRows)
+      newArr[groupLen - j] = groupStr.slice(j, j + 1)
       arr.push(newArr)
       j++
     }
     i += groupLen
   }
-  //   console.log('arr', arr)
   let str = ''
   for (let l = 0; l < numRows; l++) {
-    str += arr
-      .map((item) => item[l])
-      .filter(Boolean)
-      .join('')
+    for (let n = 0; n < arr.length; n++) {
+      str += arr[n][l] || ''
+    }
   }
   return str
 }
