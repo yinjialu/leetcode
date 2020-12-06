@@ -45,3 +45,9 @@ var convert = function (s, numRows) {
 // 1157/1157 cases passed (208 ms)
 // Your runtime beats 9.6 % of javascript submissions
 // Your memory usage beats 11.15 % of javascript submissions (45.4 MB)
+
+// v1
+// Accepted
+// 1157/1157 cases passed (160 ms)
+// Your runtime beats 15.56 % of javascript submissions
+// Your memory usage beats 22.15 % of javascript submissions (44.3 MB)
