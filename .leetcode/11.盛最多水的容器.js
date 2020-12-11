@@ -13,13 +13,18 @@
  * @return {number}
  */
 var maxArea = function (height) {
-  const len = height.length
+  let left = 0
+  let right = height.length - 1
   let maxV = 0
-  for (let i = 0; i < len - 1; i++) {
-    const leftV = height[i]
-    for (let j = i + 1; j < len; j++) {
-      const rightV = height[j]
-      maxV = Math.max(maxV, Math.min(leftV, rightV) * (j - i))
+  while (left < right) {
+    maxV = Math.max(
+      maxV,
+      Math.min(height[left], height[right]) * (right - left)
+    )
+    if (height[left] > height[right]) {
+      right--
+    } else {
+      left++
     }
   }
   return maxV
@@ -30,3 +35,9 @@ var maxArea = function (height) {
 // 56/56 cases passed (1188 ms)
 // Your runtime beats 18.19 % of javascript submissions
 // Your memory usage beats 5.01 % of javascript submissions (41.2 MB)
+
+// v1
+// Accepted
+// 56/56 cases passed (96 ms)
+// Your runtime beats 49.62 % of javascript submissions
+// Your memory usage beats 28.56 % of javascript submissions (40.7 MB)
