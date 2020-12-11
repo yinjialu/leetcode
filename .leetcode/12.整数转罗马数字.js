@@ -27,7 +27,7 @@ var intToRoman = function(num) {
       if (val === 5) return map[unit * val];
       if (val === 9) return `${map[unit]}${map[unit * 10]}`;
       if (val === 4) return `${map[unit]}${map[unit * 5]}`;
-      return val > 5 ? map[unit * 5] + new Array(val - 5).fill(map[unit]).join('') : new Array(val).fill(map[unit]).join('');
+      return val > 5 ? map[unit * 5] + map[unit].repeat(val - 5) : map[unit].repeat(val);
     }
     while (v >= 1) {
       const n = Math.floor(v / unit)
@@ -49,3 +49,9 @@ var intToRoman = function(num) {
 // 3999/3999 cases passed (172 ms)
 // Your runtime beats 44.49 % of javascript submissions
 // Your memory usage beats 30.75 % of javascript submissions (44.2 MB)
+
+// v2
+// Accepted
+// 3999/3999 cases passed (160 ms)
+// Your runtime beats 69.25 % of javascript submissions
+// Your memory usage beats 56.9 % of javascript submissions (43.6 MB)
