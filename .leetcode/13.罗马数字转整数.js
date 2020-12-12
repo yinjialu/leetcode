@@ -15,31 +15,25 @@
 var romanToInt = function (s) {
   const map = {
     I: 1,
-    IV: 4,
     V: 5,
-    IX: 9,
     X: 10,
-    XL: 40,
     L: 50,
-    XC: 90,
     C: 100,
-    CD: 400,
     D: 500,
-    CM: 900,
     M: 1000,
   }
   const len = s.length
   let i = 0
   let val = 0
   while (i < len) {
-      const n = map[s.slice(i, i + 2)];
-    if (n) {
-      val += n
-      i += 2
+    const v1 = s.slice(i, i + 1);
+    const v2 = s.slice(i + 1, i + 2);
+    if (map[v1] < map[v2]) {
+        val -= map[v1];
     } else {
-      val += map[s.slice(i, i + 1)]
-      i += 1
+        val += map[v1];
     }
+    i++;
   }
   return val
 }
@@ -54,3 +48,9 @@ var romanToInt = function (s) {
 // 3999/3999 cases passed (156 ms)
 // Your runtime beats 87.55 % of javascript submissions
 // Your memory usage beats 37.36 % of javascript submissions (44 MB)
+
+// v2
+// Accepted
+// 3999/3999 cases passed (188 ms)
+// Your runtime beats 24.95 % of javascript submissions
+// Your memory usage beats 75.53 % of javascript submissions (43.1 MB)
