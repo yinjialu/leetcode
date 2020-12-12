@@ -30,10 +30,12 @@ var romanToInt = function (s) {
     const v2 = s.slice(i + 1, i + 2);
     if (map[v1] < map[v2]) {
         val -= map[v1];
+        val += map[v2]
+        i += 2
     } else {
         val += map[v1];
+        i++
     }
-    i++;
   }
   return val
 }
@@ -54,3 +56,9 @@ var romanToInt = function (s) {
 // 3999/3999 cases passed (188 ms)
 // Your runtime beats 24.95 % of javascript submissions
 // Your memory usage beats 75.53 % of javascript submissions (43.1 MB)
+
+// v3
+// Accepted
+// 3999/3999 cases passed (156 ms)
+// Your runtime beats 87.55 % of javascript submissions
+// Your memory usage beats 64.53 % of javascript submissions (43.3 MB)
