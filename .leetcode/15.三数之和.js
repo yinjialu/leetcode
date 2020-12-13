@@ -17,7 +17,7 @@ var threeSum = function (nums) {
   const target = 0
   const result = []
   for (let i = 0; i < nums.length - 2; i++) {
-    if (nums[i] > target) return result // 数组递增，如果当前值比 target 大，后续的值不可能比 target 小，肯定不满足求和等于 target 的约束条件
+    if (nums[i] > target / 3) return result // 数组递增，如果当前值比 target 大，后续的值不可能比 target 小，肯定不满足求和等于 target 的约束条件
     if (i > 0 && nums[i - 1] === nums[i]) continue // 如果当前值和上一个值一样，需要去重复，直接进入下一轮循环
     let j = i + 1 // 有序数组，从起点和终点向中间聚合计算
     let k = nums.length - 1
@@ -25,7 +25,7 @@ var threeSum = function (nums) {
       let sum = nums[i] + nums[j] + nums[k]
       if (sum === target) {
         result.push([nums[i], nums[j], nums[k]]) // 获取到一个满足约束条件的组合
-        while (nums[j + 1] === nums[j]) j++ 
+        while (nums[j + 1] === nums[j]) j++
         while (nums[k - 1] === nums[k]) k--
         j++
         k--
