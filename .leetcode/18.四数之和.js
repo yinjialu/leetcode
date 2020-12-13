@@ -24,6 +24,8 @@ var fourSum = function (nums, target) {
       if (j > i + 1 && nums[j] === nums[j - 1]) continue
       let m = j + 1
       let n = nums.length - 1
+      if (nums[i] + nums[j] + nums[n - 1] + nums[n] < target) continue
+      if (nums[i] + nums[j] + nums[m] + nums[m + 1] > target) continue
       while (m < n) {
         const sum = nums[i] + nums[j] + nums[m] + nums[n]
         if (sum === target) {
@@ -46,3 +48,8 @@ var fourSum = function (nums, target) {
 // 283/283 cases passed (100 ms)
 // Your runtime beats 88.64 % of javascript submissions
 // Your memory usage beats 33.92 % of javascript submissions (40 MB)
+
+// Accepted
+// 283/283 cases passed (88 ms)
+// Your runtime beats 98.73 % of javascript submissions
+// Your memory usage beats 41.14 % of javascript submissions (39.9 MB)
