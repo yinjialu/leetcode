@@ -25,11 +25,9 @@ var letterCombinations = function (digits) {
   }
   const len = digits.length
   const fun = (arr1, i) => {
-    if (i === len) return arr1
-    const val = digits.slice(i, i + 1)
-    if (!val) return arr1
+    if (i >= len) return arr1
     let arr = []
-    const arr2 = map[val]
+    const arr2 = map[digits.slice(i, i + 1)]
     arr2.forEach((a2) => {
       arr = arr.concat(arr1.map((a1) => `${a1}${a2}`))
     })
@@ -43,3 +41,8 @@ var letterCombinations = function (digits) {
 // 25/25 cases passed (92 ms)
 // Your runtime beats 19.91 % of javascript submissions
 // Your memory usage beats 42.56 % of javascript submissions (37.7 MB)
+
+// Accepted
+// 25/25 cases passed (76 ms)
+// Your runtime beats 87.9 % of javascript submissions
+// Your memory usage beats 53.89 % of javascript submissions (37.6 MB)
