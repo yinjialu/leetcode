@@ -21,35 +21,31 @@
  * @return {ListNode}
  */
 var mergeTwoLists = function (l1, l2) {
-  let n1 = l1
-  let n2 = l2
-  let head = null
+  if (!l1 && !l2) return null
+  if (!l1 && l2) return l2
+  if (l1 && !l2) return l1
+  const head = l1.val < l2.val ? l1 : l2
   let last
-  if (!n1 && !n2) return head
-  if (!n1 && n2) return n2
-  if (n1 && !n2) return n1
   do {
-    if (n1.val < n2.val) {
-      head = head || n1
+    if (l1.val < l2.val) {
       if (last) {
-        last.next = n1
-        last = n1
+        last.next = l1
+        last = l1
       } else {
         last = head
       }
-      n1 = n1.next
+      l1 = l1.next
     } else {
-      head = head || n2
       if (last) {
-        last.next = n2
-        last = n2
+        last.next = l2
+        last = l2
       } else {
         last = head
       }
-      n2 = n2.next
+      l2 = l2.next
     }
-  } while (n1 && n2)
-  last.next = n1 ? n1 : n2
+  } while (l1 && l2)
+  last.next = l1 ? l1 : l2
   return head
 }
 // @lc code=end
@@ -64,3 +60,9 @@ var mergeTwoLists = function (l1, l2) {
 // 208/208 cases passed (96 ms)
 // Your runtime beats 56.84 % of javascript submissions
 // Your memory usage beats 43.4 % of javascript submissions (39.4 MB)
+
+// v2
+// Accepted
+// 208/208 cases passed (88 ms)
+// Your runtime beats 88.27 % of javascript submissions
+// Your memory usage beats 11.68 % of javascript submissions (39.7 MB)
