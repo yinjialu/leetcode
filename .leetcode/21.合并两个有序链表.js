@@ -23,12 +23,11 @@
 var mergeTwoLists = function (l1, l2) {
   let n1 = l1
   let n2 = l2
-  let head
+  let head = null
   let last
-  if (!n1) {
-    if (!n2) return null
-    return n2
-  } else if (!n2) return n1
+  if (!n1 && !n2) return head
+  if (!n1 && n2) return n2
+  if (n1 && !n2) return n1
   do {
     if (n1.val < n2.val) {
       head = head || n1
@@ -59,3 +58,9 @@ var mergeTwoLists = function (l1, l2) {
 // 208/208 cases passed (104 ms)
 // Your runtime beats 24.46 % of javascript submissions
 // Your memory usage beats 41.06 % of javascript submissions (39.4 MB)
+
+// v1
+// Accepted
+// 208/208 cases passed (96 ms)
+// Your runtime beats 56.84 % of javascript submissions
+// Your memory usage beats 43.4 % of javascript submissions (39.4 MB)
