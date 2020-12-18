@@ -14,11 +14,10 @@
  * @return {number}
  */
 var removeElement = function (nums, val) {
-  for (var i = 0; i < nums.length; i++) {
-    if (nums[i] === val) {
-      nums.splice(i, 1)
-      i--
-    }
+  let index = nums.indexOf(val)
+  while (index > -1) {
+    nums.splice(index, 1)
+    index = nums.indexOf(val)
   }
   return nums.length
 }
@@ -28,3 +27,8 @@ var removeElement = function (nums, val) {
 // 113/113 cases passed (92 ms)
 // Your runtime beats 28.72 % of javascript submissions
 // Your memory usage beats 34.94 % of javascript submissions (37.9 MB)
+
+// Accepted
+// 113/113 cases passed (76 ms)
+// Your runtime beats 92.74 % of javascript submissions
+// Your memory usage beats 62.26 % of javascript submissions (37.6 MB)
