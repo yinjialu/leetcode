@@ -14,7 +14,19 @@
  * @return {number}
  */
 var strStr = function (haystack, needle) {
-  return haystack.indexOf(needle)
+    const check = (j) => {
+      for (let i = 1; i < needle.length; i++) {
+        if (needle.charAt(i) !== haystack.charAt(j + i)) return false
+      }
+      return true
+    }
+    if (!needle) return 0
+    for (let i = 0; i < haystack.length; i++) {
+      if (haystack.charAt(i) === needle.charAt(0) && check(i)) {
+        return i
+      }
+    }
+    return -1
 }
 // @lc code=end
 
@@ -22,3 +34,9 @@ var strStr = function (haystack, needle) {
 // 78/78 cases passed (64 ms)
 // Your runtime beats 99.89 % of javascript submissions
 // Your memory usage beats 91.21 % of javascript submissions (37.1 MB)
+
+// v1
+// Accepted
+// 78/78 cases passed (5572 ms)
+// Your runtime beats 5.03 % of javascript submissions
+// Your memory usage beats 44.68 % of javascript submissions (38.6 MB)
