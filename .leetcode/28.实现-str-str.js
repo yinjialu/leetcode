@@ -15,14 +15,13 @@
  */
 var strStr = function (haystack, needle) {
     const check = (j) => {
-        if (haystack.length - j < needle.length) return
       for (let i = 1; i < needle.length; i++) {
         if (needle.charAt(i) !== haystack.charAt(j + i)) return false
       }
       return true
     }
-    if (!needle) return 0
-    for (let i = 0; i < haystack.length; i++) {
+    if (!needle || haystack === needle) return 0
+    for (let i = 0; i < haystack.length - needle.length + 1; i++) {
       if (haystack.charAt(i) === needle.charAt(0) && check(i)) {
         return i
       }
@@ -47,3 +46,9 @@ var strStr = function (haystack, needle) {
 // 78/78 cases passed (88 ms)
 // Your runtime beats 54.16 % of javascript submissions
 // Your memory usage beats 52.48 % of javascript submissions (38.2 MB)
+
+// V3
+// Accepted
+// 78/78 cases passed (80 ms)
+// Your runtime beats 84.34 % of javascript submissions
+// Your memory usage beats 74.65 % of javascript submissions (37.8 MB)
