@@ -15,6 +15,7 @@
  */
 var strStr = function (haystack, needle) {
     const check = (j) => {
+        if (haystack.length - j < needle.length) return
       for (let i = 1; i < needle.length; i++) {
         if (needle.charAt(i) !== haystack.charAt(j + i)) return false
       }
@@ -40,3 +41,9 @@ var strStr = function (haystack, needle) {
 // 78/78 cases passed (5572 ms)
 // Your runtime beats 5.03 % of javascript submissions
 // Your memory usage beats 44.68 % of javascript submissions (38.6 MB)
+
+// v2
+// Accepted
+// 78/78 cases passed (88 ms)
+// Your runtime beats 54.16 % of javascript submissions
+// Your memory usage beats 52.48 % of javascript submissions (38.2 MB)
