@@ -19,11 +19,13 @@ var findSubstring = function (s, words) {
   const len2 = words[0].length
   let result = []
   const indexs = []
+  const indexMap = {}
   words.forEach((word, i) => {
     //   找出所有包含word 的位置信息
     let index = s.indexOf(word)
     while (index !== -1) {
-      if (indexs.indexOf(index) === -1 && s.length - index >= len1 * len2) {
+      if (indexMap[index] === undefined && s.length - index >= len1 * len2) {
+        indexMap[index] = word
         indexs.push(index)
       }
       index = s.indexOf(word, index + 1)
@@ -56,3 +58,9 @@ var findSubstring = function (s, words) {
 // 176/176 cases passed (7048 ms)
 // Your runtime beats 5 % of javascript submissions
 // Your memory usage beats 95.09 % of javascript submissions (42 MB)
+
+// v1
+// Accepted
+// 176/176 cases passed (920 ms)
+// Your runtime beats 24.88 % of javascript submissions
+// Your memory usage beats 49.13 % of javascript submissions (45.3 MB)
