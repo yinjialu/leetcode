@@ -35,10 +35,6 @@ var findSubstring = function (s, words) {
   result = indexs.slice()
   for (let i = 0; i < indexs.length; i++) {
     let index = indexs[i]
-    if (s.length - index < len1 * len2) {
-      result.splice(result.indexOf(index), 1)
-      continue
-    }
     let wordsList = words.slice()
     for (let j = 0; j < len1; j++) {
       const str = s.slice(index + j * len2, index + (j + 1) * len2)
