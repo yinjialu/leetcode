@@ -35,7 +35,8 @@ var findSubstring = function (s, words) {
         }
         let index = s.indexOf(word);
         while (index > -1) {
-            if (index > -1 && s.length - index >= len * subLen && !indexMap[index]) {
+            if (s.length - index < len * subLen) break
+            if (index > -1 && !indexMap[index]) {
                 indexMap[index] = true
                 indexs.push(index);
             }
@@ -43,14 +44,16 @@ var findSubstring = function (s, words) {
         }
     }
     const fun = (index) => {
-        const copyMap = Object.assign({}, map);
+        const needMap = {};
         for (let i = 0; i < len; i++) {
             const needValue = s.slice(index + i * subLen, index + (i + 1) * subLen)
-            if (copyMap[needValue]) {
-                copyMap[needValue] -= 1;
+            if (!map[needValue]) return false;
+            if (needMap[needValue]) {
+                needMap[needValue] += 1;
             } else {
-                return false;
+                needMap[needValue] = 1;
             }
+            if (needMap[needValue] > map[needValue]) return false;
         }
         return true
     }
@@ -81,3 +84,9 @@ var findSubstring = function (s, words) {
 // 176/176 cases passed (528 ms)
 // Your runtime beats 42.75 % of javascript submissions
 // Your memory usage beats 55.8 % of javascript submissions (44.4 MB)
+
+// v3
+// Accepted
+// 176/176 cases passed (240 ms)
+// Your runtime beats 55.5 % of javascript submissions
+// Your memory usage beats 51.77 % of javascript submissions (44.8 MB)
