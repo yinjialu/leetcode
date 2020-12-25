@@ -23,7 +23,7 @@
  */
 var nextPermutation = function (nums) {
   const swap = (i, j) => {
-    ;[nums[i], nums[j]] = [nums[j], nums[i]]
+    [nums[i], nums[j]] = [nums[j], nums[i]]
   }
   const getnearestLast = (i) => {
       // i 往后的值一定是降序的，因此从后向前遍历，找到比 num[i] 大的最小值
