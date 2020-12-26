@@ -16,24 +16,23 @@
 var search = function (nums, target) {
     // 纯递增数组使用
     const fun1 = (left, right) => {
-        if (nums[left] > target) return 0
-        if (nums[right] < target) return 0
-        const middle = Math.floor((left + right) / 2);
-        if (nums[middle] === target) return middle + 1
-        if (nums[left] === target) return left + 1
-        if (nums[right] === target) return right + 1
-        if (left === middle) return 0
-        if (nums[middle] > target) return fun1(left, middle);
-        return fun1(middle, right);
+      if (nums[left] > target) return 0
+      if (nums[right] < target) return 0
+      const middle = Math.floor((left + right) / 2)
+      if (nums[middle] === target) return middle + 1
+      if (left === middle) return 0
+      if (nums[middle] > target) return fun1(left, middle)
+      return fun1(middle, right)
     }
     const fun2 = (left, right) => {
-        const middle = Math.floor((left + right) / 2);
-        if (nums[middle] === target) return middle + 1
-        if (nums[left] === target) return left + 1
-        if (nums[right] === target) return right + 1
-        if (left === middle) return 0
-        if (nums[left] < nums[middle]) return fun1(left, middle) || fun2(middle, right);
-        return fun1(middle, right) || fun2(left, middle);
+      const middle = Math.floor((left + right) / 2)
+      if (nums[middle] === target) return middle + 1
+      if (nums[left] === target) return left + 1
+      if (nums[right] === target) return right + 1
+      if (left === middle) return 0
+      if (nums[left] < nums[middle])
+        return fun1(left, middle) || fun2(middle, right)
+      return fun1(middle, right) || fun2(left, middle)
     }
     const result = fun2(0, nums.length - 1);
     return result - 1
