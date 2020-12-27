@@ -33,8 +33,14 @@ var searchRange = function (nums, target) {
       if (nums[middle] === target) {
         setLeftAndRight(middle)
       }
-      fun(left, middle)
-      fun(middle, right)
+      if (nums[middle] < target) {
+        fun(middle, right)
+      } else if (nums[middle] > target) {
+        fun(left, middle)
+      } else {
+        fun(left, middle)
+        fun(middle, right)
+      }
     }
     if (nums.length > 0) {
       fun(0, nums.length - 1)
