@@ -21,6 +21,8 @@ var isValidSudoku = function (board) {
   }
   for (let i = 0; i < board.length; i++) {
     for (let j = 0; j < board[i].length; j++) {
+      const v = board[i][j]
+      if (v === '.') continue
       if (!colMap[i]) {
         colMap[i] = {}
       }
@@ -31,8 +33,6 @@ var isValidSudoku = function (board) {
       if (!groupMap[groupMapIndex]) {
         groupMap[groupMapIndex] = {}
       }
-      const v = board[i][j]
-      if (v === '.') continue
       if (colMap[i][v]) return false
       if (rowMap[j][v]) return false
       if (groupMap[groupMapIndex][v]) return false
@@ -49,3 +49,9 @@ var isValidSudoku = function (board) {
 // 507/507 cases passed (104 ms)
 // Your runtime beats 74.97 % of javascript submissions
 // Your memory usage beats 50.66 % of javascript submissions (41.5 MB)
+
+// v1
+// Accepted
+// 507/507 cases passed (100 ms)
+// Your runtime beats 84.26 % of javascript submissions
+// Your memory usage beats 41.56 % of javascript submissions (41.9 MB)
