@@ -75,7 +75,6 @@ var solveSudoku = function (board) {
     return { emptyIndexs, board, colMap, rowMap, groupMap }
   }
   const update = ({ emptyIndexs, board, colMap, rowMap, groupMap }) => {
-    log('board', board)
     if (emptyIndexs.length === 0) return board
     const [err, i, j, list, index] = findIJInemptyIndexs(
       emptyIndexs,
@@ -83,11 +82,7 @@ var solveSudoku = function (board) {
       rowMap,
       groupMap
     )
-    // console.log('err', err)
     if (err) return false // 剪枝
-    log('emptyIndexs', emptyIndexs)
-    // console.log('i', i, 'j', j, 'index', index)
-    log('list', list)
     if (list.length === 1) {
       // 找到下一个 [i, j]
       return update(
@@ -189,3 +184,9 @@ var solveSudoku = function (board) {
 // 6/6 cases passed (232 ms)
 // Your runtime beats 11.38 % of javascript submissions
 // Your memory usage beats 11.16 % of javascript submissions (47.1 MB)
+
+// v2
+// Accepted
+// 6/6 cases passed (152 ms)
+// Your runtime beats 30.8 % of javascript submissions
+// Your memory usage beats 21.64 % of javascript submissions (44.4 MB)
