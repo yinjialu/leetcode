@@ -29,6 +29,12 @@
  *           b，board[i][j] = b
  *               执行 2.2
  */
+
+/**
+ * 如何最快找到可用值为0的位置
+ * 如何最快找到可用值数目最少的位置
+ * 设计前进后退机制
+ */
 // @lc code=start
 /**
  * @param {character[][]} board
@@ -52,13 +58,13 @@ var solveSudoku = function (board) {
     const [i, j] = emptyIndexs[minLenIndex]
     return [null, i, j, lists[minLenIndex], minLenIndex]
   }
-  const coreUpdate = (
+  const forwardUpdate = (
     i,
     j,
+    v,
     board,
     emptyIndexs,
     index,
-    v,
     colMap,
     rowMap,
     groupMap
@@ -85,13 +91,13 @@ var solveSudoku = function (board) {
     if (list.length === 1) {
       // 找到下一个 [i, j]
       return update(
-        coreUpdate(
+        forwardUpdate(
           i,
           j,
+          list[0],
           board,
           emptyIndexs,
           index,
-          list[0],
           colMap,
           rowMap,
           groupMap
@@ -100,13 +106,13 @@ var solveSudoku = function (board) {
     } else {
       for (let a = 0; a < list.length; a++) {
         const res = update(
-          coreUpdate(
+          forwardUpdate(
             i,
             j,
+            list[a],
             copy(board),
             copy(emptyIndexs),
             index,
-            list[a],
             copy(colMap),
             copy(rowMap),
             copy(groupMap)
