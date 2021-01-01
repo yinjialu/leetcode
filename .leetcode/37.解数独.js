@@ -46,17 +46,21 @@ var solveSudoku = function (board) {
     // 找到可用值为1的位置
     // 找到可用值数目最少的位置
     const lists = []
+    let minLen = 10;
+    let minLenArr = [];
+    let minLenIndex = 0;
     for (let index = 0; index < emptyIndexs.length; index++) {
       const [i, j] = emptyIndexs[index]
       const list = CheckValuesForIJ(i, j, colMap, rowMap, groupMap)
       if (list.length === 0) return [new Error('剪枝')] // 当前分支异常，剪枝
-      lists.push(list)
+      if (list.length < minLen) {
+        minLen = list.length
+        minLenArr = list;
+        minLenIndex = index;
+      }
     }
-    const lengths = lists.map((l) => l.length)
-    const minLen = Math.min(...lengths)
-    const minLenIndex = lengths.indexOf(minLen)
     const [i, j] = emptyIndexs[minLenIndex]
-    return [null, i, j, lists[minLenIndex], minLenIndex]
+    return [null, i, j, minLenArr, minLenIndex]
   }
   const forwardUpdate = (
     i,
@@ -190,3 +194,9 @@ var solveSudoku = function (board) {
 // 6/6 cases passed (152 ms)
 // Your runtime beats 30.8 % of javascript submissions
 // Your memory usage beats 21.64 % of javascript submissions (44.4 MB)
+
+// v3
+// Accepted
+// 6/6 cases passed (104 ms)
+// Your runtime beats 89.51 % of javascript submissions
+// Your memory usage beats 44.42 % of javascript submissions (42.9 MB)
