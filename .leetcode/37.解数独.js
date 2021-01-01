@@ -35,7 +35,6 @@
  * @return {void} Do not return anything, modify board in-place instead.
  */
 
-// 维护三个维度的数组，
 var solveSudoku = function (board) {
   const findIJInemptyIndexs = (emptyIndexs, colMap, rowMap, groupMap) => {
     // 找到可用值为1的位置
@@ -131,64 +130,19 @@ var solveSudoku = function (board) {
   const getGroupIndex = (i, j) => {
     return Math.floor(i / 3) * 3 + Math.floor(j / 3)
   }
-  const getXYfromGroupIndex = (index) => {
-    const x = Math.floor(index / 3)
-    const y = index % 3
-    return [x, y]
-  }
 
   const initMap = () => {
     for (let i = 0; i < board.length; i++) {
-      colMap[i] = {
-        type: 'col',
-        index: i,
-        needArr: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
-        emptyIndex: ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
-        parseXY(index) {
-          return [i, index] // 解析原始的位置信息
-        },
-      }
-      rowMap[i] = {
-        type: 'row',
-        index: i,
-        needArr: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
-        emptyIndex: ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
-        parseXY(index) {
-          return [index, i] // 解析原始的位置信息
-        },
-      }
-      groupMap[i] = {
-        type: 'group',
-        index: i,
-        needArr: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
-        emptyIndex: ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
-        parseXY(index) {
-          const [x1, y1] = getXYfromGroupIndex(i)
-          const [x2, y2] = getXYfromGroupIndex(index)
-          return [x1 + x2, y1 + y2]
-        },
-      }
+      colMap[i] = {}
+      rowMap[i] = {}
+      groupMap[i] = {}
     }
   }
   const updateMap = (i, j, v, colMap, rowMap, groupMap) => {
     const groupMapIndex = getGroupIndex(i, j)
     colMap[i][v] = `${i}${j}`
-    colMap[i].needArr.splice(colMap[i].needArr.indexOf(v), 1)
-    colMap[i].emptyIndex.splice(colMap[i].emptyIndex.indexOf(j), 1)
-
     rowMap[j][v] = `${i}${j}`
-    rowMap[j].needArr.splice(rowMap[j].needArr.indexOf(v), 1)
-    rowMap[j].emptyIndex.splice(rowMap[j].emptyIndex.indexOf(i), 1)
-
     groupMap[groupMapIndex][v] = `${i}${j}`
-    groupMap[groupMapIndex].needArr.splice(
-      groupMap[groupMapIndex].needArr.indexOf(v),
-      1
-    )
-    groupMap[groupMapIndex].emptyIndex.splice(
-      groupMap[groupMapIndex].emptyIndex.indexOf((i % 3) * 3 + (j % 3)),
-      1
-    )
   }
   const colMap = []
   const rowMap = []
@@ -223,3 +177,9 @@ var solveSudoku = function (board) {
 // 6/6 cases passed (248 ms)
 // Your runtime beats 9.6 % of javascript submissions
 // Your memory usage beats 11.16 % of javascript submissions (46.5 MB)
+
+// v1
+// Accepted
+// 6/6 cases passed (232 ms)
+// Your runtime beats 11.38 % of javascript submissions
+// Your memory usage beats 11.16 % of javascript submissions (47.1 MB)
