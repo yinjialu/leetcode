@@ -7,9 +7,9 @@
  * @lc app=leetcode.cn id=37 lang=javascript
  */
 
-/** 
+/**
  * 探路算法，支持节点存档和回退
-*/
+ */
 
 /**
  * 1，维护 board colMap rowMap groupMap
@@ -42,100 +42,30 @@
  */
 
 var solveSudoku = function (board) {
-  const findIJInemptyIndexs = (emptyIndexs, colMap, rowMap, groupMap) => {
-    // 找到可用值为1的位置
-    // 找到可用值数目最少的位置
-    const lists = []
-    let minLen = 10;
-    let minLenArr = [];
-    let minLenIndex = 0;
-    for (let index = 0; index < emptyIndexs.length; index++) {
-      const [i, j] = emptyIndexs[index]
-      const list = CheckValuesForIJ(i, j, colMap, rowMap, groupMap)
-      if (list.length === 0) return [new Error('剪枝')] // 当前分支异常，剪枝
-      if (list.length < minLen) {
-        minLen = list.length
-        minLenArr = list;
-        minLenIndex = index;
-      }
-    }
-    const [i, j] = emptyIndexs[minLenIndex]
-    return [null, i, j, minLenArr, minLenIndex]
-  }
-  const forwardUpdate = (
-    i,
-    j,
-    v,
-    board,
-    emptyIndexs,
-    index,
-    colMap,
-    rowMap,
-    groupMap
-  ) => {
-    board[i][j] = v
-    emptyIndexs.splice(index, 1)
-    updateMap(i, j, v, colMap, rowMap, groupMap)
-    return { emptyIndexs, board, colMap, rowMap, groupMap }
-  }
-  const update = ({ emptyIndexs, board, colMap, rowMap, groupMap }) => {
-    if (emptyIndexs.length === 0) return board
-    const [err, i, j, list, index] = findIJInemptyIndexs(
-      emptyIndexs,
-      colMap,
-      rowMap,
-      groupMap
-    )
-    if (err) return false // 剪枝
-    if (list.length === 1) {
-      // 找到下一个 [i, j]
-      return update(
-        forwardUpdate(
-          i,
-          j,
-          list[0],
-          board,
-          emptyIndexs,
-          index,
-          colMap,
-          rowMap,
-          groupMap
-        )
-      ) //
-    } else {
-      for (let a = 0; a < list.length; a++) {
-        const res = update(
-          forwardUpdate(
-            i,
-            j,
-            list[a],
-            copy(board),
-            copy(emptyIndexs),
-            index,
-            copy(colMap),
-            copy(rowMap),
-            copy(groupMap)
-          )
-        )
-        if (!res) continue
-        if (res) return res
-      }
-    }
-  }
-  const log = (msg, data) => {
-    console.log(msg, JSON.parse(JSON.stringify(data)))
-  }
-  const copy = (data) => JSON.parse(JSON.stringify(data))
-  const CheckValuesForIJ = (i, j, colMap, rowMap, groupMap) => {
-    const list = ['1', '2', '3', '4', '5', '6', '7', '8', '9'].filter(
-      (v) => !colMap[i][v] && !rowMap[j][v] && !groupMap[getGroupIndex(i, j)][v]
-    )
-    return list
-  }
+  const groupIndexMap = {}
   const getGroupIndex = (i, j) => {
-    return Math.floor(i / 3) * 3 + Math.floor(j / 3)
+    if (groupIndexMap[`${i}${j}`]) return groupIndexMap[`${i}${j}`]
+    groupIndexMap[`${i}${j}`] = Math.floor(i / 3) * 3 + Math.floor(j / 3)
+    return groupIndexMap[`${i}${j}`]
   }
 
+  const updateMap = (i, j, v) => {
+    const groupMapIndex = getGroupIndex(i, j)
+    colMap[i][v] = `${i}${j}`
+    rowMap[j][v] = `${i}${j}`
+    groupMap[groupMapIndex][v] = `${i}${j}`
+  }
+
+  const backwardUpdateMap = (i, j, v) => {
+    const groupMapIndex = getGroupIndex(i, j)
+    colMap[i][v] = undefined
+    rowMap[j][v] = undefined
+    groupMap[groupMapIndex][v] = undefined
+  }
+  const stock = [] // 历史记录堆栈信息
+  const colMap = []
+  const rowMap = []
+  const groupMap = []
   const initMap = () => {
     for (let i = 0; i < board.length; i++) {
       colMap[i] = {}
@@ -143,16 +73,8 @@ var solveSudoku = function (board) {
       groupMap[i] = {}
     }
   }
-  const updateMap = (i, j, v, colMap, rowMap, groupMap) => {
-    const groupMapIndex = getGroupIndex(i, j)
-    colMap[i][v] = `${i}${j}`
-    rowMap[j][v] = `${i}${j}`
-    groupMap[groupMapIndex][v] = `${i}${j}`
-  }
-  const colMap = []
-  const rowMap = []
-  const groupMap = []
   initMap()
+
   const emptyIndexs = []
   for (let i = 0; i < board.length; i++) {
     for (let j = 0; j < board[i].length; j++) {
@@ -161,18 +83,74 @@ var solveSudoku = function (board) {
         emptyIndexs.push([i, j])
         continue
       }
-      updateMap(i, j, v, colMap, rowMap, groupMap)
+      updateMap(i, j, v)
     }
   }
-  const board2 = update({ emptyIndexs, board, colMap, rowMap, groupMap })
-  for (let i = 0; i < board.length; i++) {
-    for (let j = 0; j < board[i].length; j++) {
-      if (board[i][j] === '.') {
-        board[i][j] = board2[i][j]
+
+  const CheckValuesForIJ = (i, j) => {
+    const list = ['1', '2', '3', '4', '5', '6', '7', '8', '9'].filter(
+      (v) => !colMap[i][v] && !rowMap[j][v] && !groupMap[getGroupIndex(i, j)][v]
+    )
+    return list
+  }
+
+  // 找到可用值数目最少的 [i, j]
+  const findIJInemptyIndexs = () => {
+    let minLen = 10
+    let minLenArr = []
+    let minLenIndex = 0
+    for (let index = 0; index < emptyIndexs.length; index++) {
+      const [i, j] = emptyIndexs[index]
+      const list = CheckValuesForIJ(i, j)
+      if (list.length === 0) return [new Error('剪枝')] // 当前分支异常，剪枝
+      if (list.length < minLen) {
+        minLen = list.length
+        minLenArr = list
+        minLenIndex = index
+      }
+    }
+    const [i, j] = emptyIndexs[minLenIndex]
+    return [null, i, j, minLenArr, minLenIndex]
+  }
+
+  const backwardUpdate = (i, j, v, index) => {
+    board[i][j] = '.';
+    emptyIndexs.splice(index, 0, [i, j]);
+    backwardUpdateMap(i, j, v)
+  }
+
+  const forwardUpdate = (i, j, v, index) => {
+    stock.push([i, j, v, index])
+    board[i][j] = v
+    emptyIndexs.splice(index, 1)
+    updateMap(i, j, v)
+  }
+  const update = (loop = 1) => {
+    if (emptyIndexs.length === 0) return board
+    const [err, i, j, list, index] = findIJInemptyIndexs()
+    if (err) return false // 剪枝
+    if (list.length === 1) {
+      forwardUpdate(i, j, list[0], index)
+      return update(loop + 1)
+    } else {
+      for (let a = 0; a < list.length; a++) {
+        const startIndex = stock.length
+        // 当执行几次回退后，这里的 index 已经不准了
+        forwardUpdate(i, j, list[a], index)
+        const res = update(loop + 1)
+        if (!res) {
+          // 需要回退 board emptyIndexs colMap rowMap groupMap
+          while (startIndex < stock.length) {
+            const [i, j, v, index] = stock.pop()
+            backwardUpdate(i, j, v, index)
+          }
+          continue
+        }
+        if (res) return res
       }
     }
   }
-  return board
+  return update()
 }
 // @lc code=end
 // var a = [["5","3",".",".","7",".",".",".","."],["6",".",".","1","9","5",".",".","."],[".","9","8",".",".",".",".","6","."],["8",".",".",".","6",".",".",".","3"],["4",".",".","8",".","3",".",".","1"],["7",".",".",".","2",".",".",".","6"],[".","6",".",".",".",".","2","8","."],[".",".",".","4","1","9",".",".","5"],[".",".",".",".","8",".",".","7","9"]];
@@ -200,3 +178,9 @@ var solveSudoku = function (board) {
 // 6/6 cases passed (104 ms)
 // Your runtime beats 89.51 % of javascript submissions
 // Your memory usage beats 44.42 % of javascript submissions (42.9 MB)
+
+// v4
+// Accepted
+// 6/6 cases passed (112 ms)
+// Your runtime beats 83.93 % of javascript submissions
+// Your memory usage beats 43.96 % of javascript submissions (43 MB)
