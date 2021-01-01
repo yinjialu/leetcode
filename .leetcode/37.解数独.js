@@ -12,6 +12,7 @@
  */
 
 /**
+ * 【为分支拷贝 board】
  * 1，维护 board colMap rowMap groupMap
  * 2，维护值为 . 的位置数组 emptyIndexs ，并通过 colMap rowMap groupMap 计算每个位置可用的值
  *     2.1 emptyIndexs.length === 0 【打断递归】 直接返回 board 作为最后的结果
@@ -31,9 +32,11 @@
  */
 
 /**
+ * 【寻路算法，之前前进后退】
  * 如何最快找到可用值为0的位置
  * 如何最快找到可用值数目最少的位置
  * 设计前进后退机制
+ * 先按照分支前进，判断阻塞的时候后退到分叉的节点，选下一个分支继续前进
  */
 // @lc code=start
 /**
@@ -42,11 +45,11 @@
  */
 
 var solveSudoku = function (board) {
-  const groupIndexMap = {}
+//   const groupIndexMap = {}
   const getGroupIndex = (i, j) => {
-    if (groupIndexMap[`${i}${j}`]) return groupIndexMap[`${i}${j}`]
-    groupIndexMap[`${i}${j}`] = Math.floor(i / 3) * 3 + Math.floor(j / 3)
-    return groupIndexMap[`${i}${j}`]
+    // if (groupIndexMap[`${i}${j}`]) return groupIndexMap[`${i}${j}`]
+    // groupIndexMap[`${i}${j}`] = Math.floor(i / 3) * 3 + Math.floor(j / 3)
+    return Math.floor(i / 3) * 3 + Math.floor(j / 3)
   }
 
   const updateMap = (i, j, v) => {
