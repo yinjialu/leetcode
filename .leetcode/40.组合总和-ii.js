@@ -25,6 +25,7 @@ var combinationSum2 = function (candidates, target) {
   }
   const fun = (target, start, stock) => {
     const min = candidates[start + 1]
+    if (target < min) return
     let i = start + 1
     while (i < candidates.length) {
       const v = candidates[i]
@@ -60,3 +61,9 @@ var combinationSum2 = function (candidates, target) {
 // 174/174 cases passed (100 ms)
 // Your runtime beats 57.05 % of javascript submissions
 // Your memory usage beats 84.47 % of javascript submissions (39.4 MB)
+
+// v3
+// Accepted
+// 174/174 cases passed (88 ms)
+// Your runtime beats 91.49 % of javascript submissions
+// Your memory usage beats 93.71 % of javascript submissions (39.1 MB)
