@@ -14,32 +14,33 @@
  * @return {number[][]}
  */
 var combinationSum2 = function (candidates, target) {
-  const min = Math.min(...candidates)
-  const fun = (target, start) => {
-    let result = []
-    for (let i = start + 1; i < candidates.length; i++) {
+  candidates.sort((a, b) => a - b)
+  const result = []
+  const resultMap = {}
+  const updateResult = (r) => {
+    const key = r.join()
+    if (resultMap[key]) return
+    resultMap[key] = true
+    result.push(r)
+  }
+  const fun = (target, start, stock) => {
+    console.log('start', target, 'start', start, 'stock', JSON.stringify(stock))
+    const min = candidates[start + 1]
+    let i = start + 1
+    while (i < candidates.length) {
       const v = candidates[i]
       if (v === target) {
-        result.push([v])
+        updateResult(stock.concat(v))
       } else if (target - v >= min) {
-        const subArr = fun(target - v, i)
-        if (subArr.length > 0) {
-          subArr.forEach((s) => {
-            s.unshift(v)
-          })
-        }
-        result = result.concat(subArr)
+        fun(target - v, i, stock.concat(v))
+      }
+      i++
+      while (candidates[i] === v) {
+        i++
       }
     }
-    return result
   }
-  const map = {}
-  const result = fun(target, -1).filter((r) => {
-    const key = r.sort().join()
-    if (map[key]) return false
-    map[key] = true
-    return true
-  })
+  fun(target, -1, [])
   return result
 }
 // @lc code=end
@@ -48,3 +49,9 @@ var combinationSum2 = function (candidates, target) {
 // 174/174 cases passed (4196 ms)
 // Your runtime beats 5.05 % of javascript submissions
 // Your memory usage beats 10.57 % of javascript submissions (43.9 MB)
+
+// v1
+// Accepted
+// 174/174 cases passed (156 ms)
+// Your runtime beats 21.81 % of javascript submissions
+// Your memory usage beats 24.76 % of javascript submissions (43.4 MB)
