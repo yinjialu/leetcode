@@ -13,9 +13,9 @@
  * @return {number}
  */
 var trap = function (height) {
-  let i = 0
+  let i = 1
   let total = 0
-  while (i < height.length) {
+  while (i < height.length - 1) {
     let count = 0
     const v = height[i]
     let baseLevel = v
@@ -65,7 +65,7 @@ var trap = function (height) {
         if (height[right] < rightMax) break
       }
     }
-    i++
+    i = right
     total += count
   }
   return total
@@ -76,3 +76,9 @@ var trap = function (height) {
 // 320/320 cases passed (96 ms)
 // Your runtime beats 58.21 % of javascript submissions
 // Your memory usage beats 23.58 % of javascript submissions (39.9 MB)
+
+// v1
+// Accepted
+// 320/320 cases passed (88 ms)
+// Your runtime beats 84.35 % of javascript submissions
+// Your memory usage beats 34.05 % of javascript submissions (39.7 MB)
