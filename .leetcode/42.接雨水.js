@@ -16,13 +16,9 @@ var trap = function (height) {
   let i = 1
   let total = 0
   while (i < height.length - 1) {
-    let count = 0
     const v = height[i]
-    let baseLevel = v
     let left = i - 1
     let right = i + 1
-    let leftMax = height[left]
-    let rightMax = height[right]
     if (height[left] === undefined || height[right] === undefined) {
       i++
       continue
@@ -34,11 +30,11 @@ var trap = function (height) {
     while (height[right] === v) {
       right += 1
     }
+    let baseLevel = v
     while (height[left] > v && height[right] > v) {
-      leftMax = height[left]
-      rightMax = height[right]
+      const leftMax = height[left]
       const min = Math.min(height[left], height[right])
-      count += (right - left - 1) * (min - baseLevel)
+      total += (right - left - 1) * (min - baseLevel)
       baseLevel = min
       // 向右，如果遇到比前边小的，结束循环
       // 向左，如果遇到比当前小的，继续 - 1
@@ -49,24 +45,23 @@ var trap = function (height) {
         }
       } else if (height[left] > height[right]) {
         right += 1
-        while (height[right] === rightMax) {
+        while (height[right] === height[right - 1]) {
           right += 1
         }
-        if (height[right] < rightMax) break
+        if (height[right] < height[right - 1]) break
       } else {
         left -= 1
         while (height[left] <= leftMax) {
           left -= 1
         }
         right += 1
-        while (height[right] === rightMax) {
+        while (height[right] === height[right - 1]) {
           right += 1
         }
-        if (height[right] < rightMax) break
+        if (height[right] < height[right - 1]) break
       }
     }
     i = right
-    total += count
   }
   return total
 }
