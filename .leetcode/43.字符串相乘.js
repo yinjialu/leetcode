@@ -26,8 +26,9 @@ var multiply = function (num1, num2) {
     } else {
       base = []
     }
-    let sum = []
     const v1 = +num1.charAt(i)
+    if (v1 === 0) continue
+    let sum = []
     let nextLevel2 = 0
     for (let j = num2.length - 1; j >= 0; j--) {
       const v2 = +num2.charAt(j)
@@ -41,7 +42,8 @@ var multiply = function (num1, num2) {
     sum = base.concat(sum)
     arr.push(sum)
   }
-  const lastSum = arr[arr.length - 1]
+  
+  const lastSum = arr[arr.length - 1] || [];
   let nextLevel = 0
   let collectZero = ''
   for (let m = 0; m < lastSum.length; m++) {
