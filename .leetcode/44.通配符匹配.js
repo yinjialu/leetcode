@@ -16,12 +16,23 @@
 
 // var s = 'abcabczzzde'
 // var p = '*abc???de*'
+
+// var s =
+//   'aaaabaaaabbbbaabbbaabbaababbabbaaaababaaabbbbbbaabbbabababbaaabaabaaaaaabbaabbbbaababbababaabbbaababbbba'
+// var p = '*****b*aba***babaa*bbaba***a*aaba*b*aa**a*b**ba***a*a*'
+
+// "aaaa"
+// "***a"
+
+// "abefcdgiescdfimde"
+// "ab*cd?i*de"
+
 var isMatch = function (s, p) {
   const map = {}
   const reverseMap = {}
   const sL = s.length
   const pL = p.length
-  const check = (i, j, reversei = sL - 1, reversej = pL - 1) => {
+  const check = (i, j, reversei, reversej) => {
     if (map[`${i}${j}`] !== undefined) return map[`${i}${j}`]
     if (i === sL && j === pL) return true
     if (i > sL || j > pL) return false
@@ -71,7 +82,7 @@ var isMatch = function (s, p) {
     }
     return !!reverseMap[`${i}${j}`]
   }
-  return check(0, 0)
+  return check(0, 0, sL - 1, pL - 1)
 }
 // @lc code=end
 
