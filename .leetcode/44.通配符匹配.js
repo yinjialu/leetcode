@@ -27,25 +27,40 @@
 // "abefcdgiescdfimde"
 // "ab*cd?i*de"
 
+var s = 'bbaa'
+var p = '*?*b*'
+
 var isMatch = function (s, p) {
+  let newP = ''
+  for (let i = 0; i < p.length; i++) {
+    const pValue = p.charAt(i)
+    const pPrev = p.charAt(i - 1)
+    if (pPrev === '*' && pValue === '*') {
+      continue
+    } else {
+      newP += pValue
+    }
+  }
+  p = newP
   const map = {}
   const reverseMap = {}
   const sL = s.length
   const pL = p.length
   const check = (i, j, reversei, reversej) => {
     if (map[`${i}${j}`] !== undefined) return map[`${i}${j}`]
-    if (i === sL && j === pL) return true
-    if (i > sL || j > pL) return false
+    if (reversei === sL - 1) {
+      if (i === reversei + 1 && j === reversej + 1) return true
+      if (i > reversei + 1 || j > reversej + 1) return false
+    } else {
+      if (i === reversei + 1 && (j === reversej + 1 || j === reversej))
+        return true
+      if (i > reversei + 1 || j > reversej + 1) return false
+    }
     const sV = s.charAt(i)
     const pV = p.charAt(j)
     if (sV === pV || pV === '?') {
       map[`${i}${j}`] = check(i + 1, j + 1, reversei, reversej)
     } else if (pV === '*') {
-      let pN = p.charAt(j + 1)
-      while (pN === '*') {
-        j++
-        pN = p.charAt(j + 1)
-      }
       map[`${i}${j}`] =
         check(i + 1, j + 1, reversei, reversej) ||
         check(i, j + 1, reversei, reversej)
@@ -58,29 +73,26 @@ var isMatch = function (s, p) {
     return !!map[`${i}${j}`]
   }
   const reverseCheck = (i, j, reversei, reversej) => {
-    if (reverseMap[`${i}${j}`] !== undefined) return reverseMap[`${i}${j}`]
-    if (i === -1 && j === -1) return true
-    if (i < -1 || j < -1) return false
+    if (reverseMap[`${i}${j}${reversei}${reversej}`] !== undefined)
+      return reverseMap[`${i}${j}${reversei}${reversej}`]
+    if (i === reversei - 1 && (j === reversej - 1 || j === reversej))
+      return true
+    if (i < reversei - 1 || j < reversej - 1) return false
     const sV = s.charAt(i)
     const pV = p.charAt(j)
     if (sV === pV || pV === '?') {
-      reverseMap[`${i}${j}`] = reverseCheck(i - 1, j - 1, reversei, reversej)
+      reverseMap[`${i}${j}${reversei}${reversej}`] = reverseCheck(i - 1, j - 1, reversei, reversej)
     } else if (pV === '*') {
-      let pN = p.charAt(j - 1)
-      while (pN === '*') {
-        j--
-        pN = p.charAt(j - 1)
-      }
-      reverseMap[`${i}${j}`] =
+      reverseMap[`${i}${j}${reversei}${reversej}`] =
         reverseCheck(i - 1, j - 1, reversei, reversej) ||
         reverseCheck(i, j - 1, reversei, reversej)
-      if (!reverseMap[`${i}${j}`]) {
+      if (!reverseMap[`${i}${j}${reversei}${reversej}`]) {
         // 尝试反转匹配
-        // reverseMap[`${i}${j}`] = reverseCheck(i - 1, j)
-        reverseMap[`${i}${j}`] = check(reversei, reversej, i - 1, j)
+        // reverseMap[`${i}${j}${reversei}${reversej}`] = reverseCheck(i - 1, j)
+        reverseMap[`${i}${j}${reversei}${reversej}`] = check(reversei, reversej, i - 1, j)
       }
     }
-    return !!reverseMap[`${i}${j}`]
+    return !!reverseMap[`${i}${j}${reversei}${reversej}`]
   }
   return check(0, 0, sL - 1, pL - 1)
 }
@@ -91,9 +103,14 @@ var isMatch = function (s, p) {
 // Your runtime beats 9.5 % of javascript submissions
 // Your memory usage beats 5.46 % of javascript submissions (58.4 MB)
 
-
 // v1
 // Accepted
 // 1811/1811 cases passed (424 ms)
 // Your runtime beats 8.18 % of javascript submissions
 // Your memory usage beats 5.03 % of javascript submissions (69.6 MB)
+
+// v2
+// Accepted
+// 1811/1811 cases passed (472 ms)
+// Your runtime beats 7.27 % of javascript submissions
+// Your memory usage beats 5.03 % of javascript submissions (64.9 MB)
