@@ -30,15 +30,16 @@ var canJump = function (nums) {
             map[i] = 1;
             return map[i];
         }
-        let minStep;
+        let step;
         for (let j = v; j >= 1; j--) {
             if (nums[i + j] + (i + j) <= i + v) continue;
             const nextStep = check(i + j);
-            if (nextStep === false) continue;
-            const step = 1 + nextStep;
-            minStep = minStep ? Math.min(minStep, step) : step;
+            if (nextStep !== false) {
+                step = 1 + nextStep;
+                break;
+            }
         }
-        map[i] = minStep || false;
+        map[i] = step || false;
         return map[i];
     };
     return check(0) !== false;
@@ -49,3 +50,9 @@ var canJump = function (nums) {
 // 75/75 cases passed (136 ms)
 // Your runtime beats 18.38 % of javascript submissions
 // Your memory usage beats 5.02 % of javascript submissions (42.8 MB)
+
+// v1
+// Accepted
+// 75/75 cases passed (100 ms)
+// Your runtime beats 29.53 % of javascript submissions
+// Your memory usage beats 5.02 % of javascript submissions (43.1 MB)
