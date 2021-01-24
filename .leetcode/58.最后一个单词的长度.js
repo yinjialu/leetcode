@@ -13,9 +13,7 @@
  * @return {number}
  */
 var lengthOfLastWord = function (s) {
-    const arr = s.split(' ').filter(Boolean);
-    const len = arr.length;
-    return (arr[len - 1] && arr[len - 1].length) || 0;
+    return s.trim().split(' ').pop().length;
 };
 // @lc code=end
 
@@ -23,3 +21,8 @@ var lengthOfLastWord = function (s) {
 // 58/58 cases passed (100 ms)
 // Your runtime beats 10.81 % of javascript submissions
 // Your memory usage beats 29.8 % of javascript submissions (38 MB)
+
+// Accepted
+// 58/58 cases passed (84 ms)
+// Your runtime beats 54.87 % of javascript submissions
+// Your memory usage beats 20.06 % of javascript submissions (38.1 MB)
