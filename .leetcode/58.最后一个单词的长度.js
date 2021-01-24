@@ -19,7 +19,7 @@ var lengthOfLastWord = function (s) {
 };
 // @lc code=end
 
-Accepted
-58/58 cases passed (100 ms)
-Your runtime beats 10.81 % of javascript submissions
-Your memory usage beats 29.8 % of javascript submissions (38 MB)
+// Accepted
+// 58/58 cases passed (100 ms)
+// Your runtime beats 10.81 % of javascript submissions
+// Your memory usage beats 29.8 % of javascript submissions (38 MB)
