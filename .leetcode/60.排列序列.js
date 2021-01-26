@@ -22,8 +22,6 @@ var getPermutation = function (n, k) {
         arr.push(i);
         map[i] = val;
     }
-    console.log('map', map);
-    console.log('arr', arr);
     let result = '';
     for (let j = n; j > 0; j--) {
         let index = Math.floor(k / map[j - 1]);
@@ -39,3 +37,9 @@ var getPermutation = function (n, k) {
 // 200/200 cases passed (120 ms)
 // Your runtime beats 50.88 % of javascript submissions
 // Your memory usage beats 44.12 % of javascript submissions (40.1 MB)
+
+// v1
+// Accepted
+// 200/200 cases passed (88 ms)
+// Your runtime beats 77.94 % of javascript submissions
+// Your memory usage beats 53.24 % of javascript submissions (39.3 MB)
