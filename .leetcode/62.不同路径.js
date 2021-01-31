@@ -28,23 +28,23 @@ var uniquePaths = function (m, n) {
         if (row === m && col === n) return 1;
         if (row > m || col > n) return 0;
 
-        // if (memo[row][col] === -1) {
-        if (memo[`${row}${col}`] === undefined) {
+        if (memo[row][col] === -1) {
+            // if (memo[`${row}${col}`] === undefined) {
             const pathsRight = helper(m, n, row, col + 1, memo);
             const pathsDown = helper(m, n, row + 1, col, memo);
 
-            // memo[row][col] = pathsRight + pathsDown;
-            memo[`${row}${col}`] = pathsRight + pathsDown;
+            memo[row][col] = pathsRight + pathsDown;
+            // memo[`${row}${col}`] = pathsRight + pathsDown;
         }
 
-        // return memo[row][col];
-        return memo[`${row}${col}`];
+        return memo[row][col];
+        // return memo[`${row}${col}`];
     };
-    // const memo = new Array(m + 1).fill(0);
-    // for (let i = 0; i < memo.length; i++) {
-    //     memo[i] = new Array(n + 1).fill(-1);
-    // }
-    const memo = {};
+    const memo = new Array(m + 1).fill(0);
+    for (let i = 0; i < memo.length; i++) {
+        memo[i] = new Array(n + 1).fill(-1);
+    }
+    // const memo = {};
     return helper(m, n, 1, 1, memo);
 };
 // @lc code=end
