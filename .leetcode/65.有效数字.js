@@ -28,7 +28,7 @@ var isNumber = function (s) {
         const r1 = /^[\-|\+]?\d+\.$/;
         const r2 = /^[\-|\+]?\d+\.\d+$/;
         const r3 = /^[\-|\+]?\.\d+$/;
-        // const r = /^[\-|\+]?\d*\.\d*$/;
+        // const r = /^[\-|\+]?\d*\.\d*$/; // 小数点前后必须有得有一个数字，测试用例 '.'
         return [r1, r2, r3].some((r) => r.test(s));
     };
     const arr = s.toUpperCase().split('E');
