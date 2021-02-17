@@ -20,12 +20,10 @@ var climbStairs = function (n) {
         2: 2,
         3: 3,
     };
-    const f = (n) => {
-        if (map[n]) return map[n];
-        map[n] = f(n - 1) + f(n - 2);
-        return map[n];
-    };
-    return f(n);
+    for (let i = 4; i <= n; i++) {
+        map[i] = map[i - 1] + map[i - 2];
+    }
+    return map[n];
 };
 // @lc code=end
 
@@ -33,3 +31,9 @@ var climbStairs = function (n) {
 // 45/45 cases passed (88 ms)
 // Your runtime beats 29.13 % of javascript submissions
 // Your memory usage beats 5.05 % of javascript submissions (38.2 MB)
+
+// v1
+// Accepted
+// 45/45 cases passed (92 ms)
+// Your runtime beats 18.05 % of javascript submissions
+// Your memory usage beats 69.42 % of javascript submissions (37.6 MB)
