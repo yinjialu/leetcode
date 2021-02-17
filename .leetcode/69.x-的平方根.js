@@ -26,7 +26,7 @@ var mySqrt = function (x) {
     };
     let i = 1;
     while (i * i <= x) {
-        i *= 2;
+        i *= i === 1 ? 2 : i;
     }
     return fun(0, i);
 };
@@ -43,3 +43,9 @@ var mySqrt = function (x) {
 // 1017/1017 cases passed (124 ms)
 // Your runtime beats 20.39 % of javascript submissions
 // Your memory usage beats 29.78 % of javascript submissions (39.4 MB)
+
+// v2
+// Accepted
+// 1017/1017 cases passed (104 ms)
+// Your runtime beats 54.51 % of javascript submissions
+// Your memory usage beats 43.42 % of javascript submissions (39.3 MB)
