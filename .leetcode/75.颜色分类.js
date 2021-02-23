@@ -31,7 +31,9 @@ var sortColors = function (nums) {
         const v = nums[i];
         const position = getPosition(v);
         map[v]++;
-        nums.splice(position, 0, nums.splice(i, 1)[0]);
+        if (nums[position] !== nums[i]) {
+            nums.splice(position, 0, nums.splice(i, 1)[0]);
+        }
         i++;
     }
 };
@@ -41,3 +43,9 @@ var sortColors = function (nums) {
 // 87/87 cases passed (96 ms)
 // Your runtime beats 19.37 % of javascript submissions
 // Your memory usage beats 23.73 % of javascript submissions (38.8 MB)
+
+// v1
+// Accepted
+// 87/87 cases passed (88 ms)
+// Your runtime beats 44.32 % of javascript submissions
+// Your memory usage beats 75.41 % of javascript submissions (37.9 MB)
